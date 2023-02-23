@@ -5,18 +5,18 @@ import {
   getMovieByMinimumYear
 } from "./db";
 
-export const home = (req, res) =>
-  res.render("movies", { movies: getMovies(), pageTitle: "Movies!" });
+// let movies = [
+
+// ];
+
+export const home = (req, res) => {
+  return res.render("index", { pageTitle: "Movie List", movies: getMovies() });
+};
 
 export const movieDetail = (req, res) => {
-  const {
-    params: { id }
-  } = req;
+  const { id } = req.params;
   const movie = getMovieById(id);
-  if (!movie) {
-    res.render("404", { pageTitle: "Movie not found" });
-  }
-  return res.render("detail", { movie, pageTitle: movie.title });
+  return res.render("detail", { pagetitle: "Movie:Detail", movie });
 };
 
 export const filterMovie = (req, res) => {
@@ -25,19 +25,16 @@ export const filterMovie = (req, res) => {
   } = req;
   if (year) {
     const movies = getMovieByMinimumYear(year);
-    return res.render("movies", {
-      pageTitle: `Searching by year: ${year}`,
-      searchingBy: "year",
-      searchingTerm: year,
+    return res.render("index", {
+      pageTitle: `Movie year: ${year}`,
       movies
     });
   }
   if (rating) {
     const movies = getMovieByMinimumRating(rating);
-    return res.render("movies", {
-      pageTitle: `Searching by rating: ${rating}`,
+    return res.render("index", {
+      pageTitle: `Movie rating: ${rating}`,
       movies
     });
   }
-  res.render("404", { pageTitle: "Movie not found" });
 };
