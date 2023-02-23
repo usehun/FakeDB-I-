@@ -1,0 +1,16 @@
+extends layouts
+include mixins/movie
+
+block content
+  h2=pageTitle
+
+  form(action="/filter", method="GET")
+    input(placeholder="Year", type="number" name="year")
+    input(placeholder="Rating", type="text" name="rating")
+    button Search
+
+  ul
+    each movie in movies
+      +movie(movie)
+    else
+      li Sorry noting found.
